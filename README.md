@@ -1,1 +1,1 @@
-# pizzaria-miragem-1
+# pizzaria-miragem
