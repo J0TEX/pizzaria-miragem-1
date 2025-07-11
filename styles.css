@@ -1,9 +1,296 @@
+/* DESIGN GUIDELINES IMPLEMENTATION */
+
+/* 1. Layout & Spacing System */
+:root {
+    --spacing-base: 16px;
+    --spacing-2x: 32px;
+    --spacing-3x: 48px;
+    --spacing-4x: 64px;
+    --grid-columns: 12;
+    --card-radius: 8px;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --card-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.1);
+    --transition-duration: 0.2s;
+    --transition-easing: ease;
+}
+
+/* 12-Column Grid System */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns), 1fr);
+    gap: var(--spacing-base);
+    padding: var(--spacing-base);
+}
+
+.grid-item {
+    grid-column: span 12;
+}
+
+@media (min-width: 640px) {
+    .grid-item-sm-6 { grid-column: span 6; }
+    .grid-item-sm-4 { grid-column: span 4; }
+    .grid-item-sm-3 { grid-column: span 3; }
+}
+
+@media (min-width: 768px) {
+    .grid-item-md-6 { grid-column: span 6; }
+    .grid-item-md-4 { grid-column: span 4; }
+    .grid-item-md-3 { grid-column: span 3; }
+    .grid-item-md-2 { grid-column: span 2; }
+}
+
+@media (min-width: 1024px) {
+    .grid-item-lg-6 { grid-column: span 6; }
+    .grid-item-lg-4 { grid-column: span 4; }
+    .grid-item-lg-3 { grid-column: span 3; }
+    .grid-item-lg-2 { grid-column: span 2; }
+    .grid-item-lg-1 { grid-column: span 1; }
+}
+
+/* Spacing Utilities */
+.p-base { padding: var(--spacing-base); }
+.p-2x { padding: var(--spacing-2x); }
+.p-3x { padding: var(--spacing-3x); }
+.p-4x { padding: var(--spacing-4x); }
+
+.m-base { margin: var(--spacing-base); }
+.m-2x { margin: var(--spacing-2x); }
+.m-3x { margin: var(--spacing-3x); }
+.m-4x { margin: var(--spacing-4x); }
+
+.px-base { padding-left: var(--spacing-base); padding-right: var(--spacing-base); }
+.py-base { padding-top: var(--spacing-base); padding-bottom: var(--spacing-base); }
+
+.mx-base { margin-left: var(--spacing-base); margin-right: var(--spacing-base); }
+.my-base { margin-top: var(--spacing-base); margin-bottom: var(--spacing-base); }
+
+/* Card System with specified styling */
+.card {
+    background-color: white;
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    padding: var(--spacing-base);
+    margin: var(--spacing-base);
+    transition: all var(--transition-duration) var(--transition-easing);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* 2. Animations & Micro-Interactions */
+
+/* Button feedback - scale down to 95% on click with 0.2s ease */
+.btn, button, [role="button"] {
+    transition: all var(--transition-duration) var(--transition-easing);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:active, button:active, [role="button"]:active {
+    transform: scale(0.95);
+}
+
+.btn:focus-visible, button:focus-visible, [role="button"]:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Hover effects - soft background fade on interactive elements */
+.btn:hover, button:hover, [role="button"]:hover,
+.menu-item:hover, .contact-card:hover, .order-card:hover,
+nav a:hover, .mobile-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+}
+
+.btn-primary:hover {
+    background-color: #1b5e20;
+    box-shadow: 0 6px 12px rgba(46, 125, 50, 0.2);
+}
+
+.btn-secondary:hover {
+    background-color: #f57f17;
+    box-shadow: 0 6px 12px rgba(249, 168, 37, 0.2);
+}
+
+/* Page transitions - horizontal slide (card flipping) between sections */
+.page-transition {
+    position: relative;
+    overflow: hidden;
+}
+
+.section-slide-enter {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.section-slide-enter-active {
+    transform: translateX(0);
+    opacity: 1;
+    transition: transform 0.5s ease-out, opacity 0.3s ease-out;
+}
+
+.section-slide-exit {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.section-slide-exit-active {
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.5s ease-out, opacity 0.3s ease-out;
+}
+
+/* Enhanced card flipping animation for menu items */
+.card-flip {
+    perspective: 1000px;
+    position: relative;
+}
+
+.card-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card-flip:hover .card-flip-inner {
+    transform: rotateY(180deg);
+}
+
+.card-flip-front, .card-flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.card-flip-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, var(--primary), #1b5e20);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-base);
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Enhanced interactive elements */
+.interactive {
+    position: relative;
+    transition: all var(--transition-duration) var(--transition-easing);
+}
+
+.interactive::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity var(--transition-duration) var(--transition-easing);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.interactive:hover::before {
+    opacity: 1;
+}
+
+/* Floating animation enhancement */
+@keyframes float-enhanced {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    33% {
+        transform: translateY(-10px) rotate(1deg);
+    }
+    66% {
+        transform: translateY(-5px) rotate(-1deg);
+    }
+}
+
+.float-animation {
+    animation: float-enhanced 4s ease-in-out infinite;
+}
+
+/* Pulse animation for important elements */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: var(--card-shadow);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(46, 125, 50, 0.3);
+    }
+}
+
+.pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Shimmer effect for loading states */
+@keyframes shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+.shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200px 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+/* Ensure minimum spacing on all major elements */
+.container {
+    padding-left: var(--spacing-base);
+    padding-right: var(--spacing-base);
+}
+
+section {
+    padding-top: var(--spacing-4x);
+    padding-bottom: var(--spacing-4x);
+}
+
+.section-header {
+    margin-bottom: var(--spacing-3x);
+}
+
+/* Update existing classes to use new system */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-base);
+    padding: var(--spacing-base);
+}
+
 /* Non-critical CSS for lazy-loaded content */
 
 /* Section styles */
 .about-section,
 .menu-section {
-    padding: 4rem 0;
+    padding: var(--spacing-4x) var(--spacing-base);
+    min-height: 100vh;
 }
 
 .about-section {
@@ -15,8 +302,9 @@
 }
 
 .contact-section {
-    padding: 4rem 0;
+    padding: var(--spacing-4x) var(--spacing-base);
     background-color: white;
+    min-height: 100vh;
 }
 
 /* Section headers */
@@ -159,16 +447,18 @@
 
 .menu-item {
     background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
     overflow: hidden;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all var(--transition-duration) var(--transition-easing);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    padding: var(--spacing-base);
+    margin: var(--spacing-base);
 }
 
 .menu-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
 }
 
 .menu-item-content {
@@ -289,10 +579,17 @@
 .contact-card,
 .order-card {
     background-color: #f3f4f6;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
+    padding: var(--spacing-2x);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    margin-bottom: var(--spacing-2x);
+    transition: all var(--transition-duration) var(--transition-easing);
+}
+
+.contact-card:hover,
+.order-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
 }
 
 .contact-title {
