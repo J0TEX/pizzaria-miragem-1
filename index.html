@@ -270,8 +270,8 @@
                 <h1>Pizzaria Miragem</h1>
                 <p>Sabores tropicais que transportam para o paraíso</p>
                 <div class="hero-buttons">
-                    <a href="#menu" class="btn btn-primary">Ver Menu</a>
-                    <a href="#contact" class="btn btn-secondary">Encomendar</a>
+                    <a href="#menu" class="btn btn-primary" aria-label="Ver o menu completo da pizzaria">Ver Menu</a>
+                    <a href="#contact" class="btn btn-secondary" aria-label="Ir para a secção de contactos para encomendar">Encomendar</a>
                 </div>
             </div>
         </div>
@@ -345,28 +345,44 @@
                                     const img = entry.target;
                                     img.src = img.dataset.src;
                                     img.classList.remove('lazy');
+                                    img.classList.add('loaded');
                                     imageObserver.unobserve(img);
                                 }
                             });
                         });
                         
                         lazyImages.forEach(img => imageObserver.observe(img));
+                    } else {
+                        // Fallback for browsers without IntersectionObserver support
+                        const lazyImages = document.querySelectorAll('img[data-src]');
+                        lazyImages.forEach(img => {
+                            img.src = img.dataset.src;
+                            img.classList.remove('lazy');
+                            img.classList.add('loaded');
+                        });
                     }
                     
                     // Initialize lazy loading for iframe (Google Maps)
                     const lazyIframes = document.querySelectorAll('iframe[data-src]');
-                    if (lazyIframes.length > 0 && 'IntersectionObserver' in window) {
-                        const iframeObserver = new IntersectionObserver((entries, observer) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                    const iframe = entry.target;
-                                    iframe.src = iframe.dataset.src;
-                                    iframeObserver.unobserve(iframe);
-                                }
+                    if (lazyIframes.length > 0) {
+                        if ('IntersectionObserver' in window) {
+                            const iframeObserver = new IntersectionObserver((entries, observer) => {
+                                entries.forEach(entry => {
+                                    if (entry.isIntersecting) {
+                                        const iframe = entry.target;
+                                        iframe.src = iframe.dataset.src;
+                                        iframeObserver.unobserve(iframe);
+                                    }
+                                });
                             });
-                        });
-                        
-                        lazyIframes.forEach(iframe => iframeObserver.observe(iframe));
+                            
+                            lazyIframes.forEach(iframe => iframeObserver.observe(iframe));
+                        } else {
+                            // Fallback for browsers without IntersectionObserver support
+                            lazyIframes.forEach(iframe => {
+                                iframe.src = iframe.dataset.src;
+                            });
+                        }
                     }
                 })
                 .catch(error => {

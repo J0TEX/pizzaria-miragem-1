@@ -112,9 +112,9 @@ async function cacheFirst(request) {
         const networkResponse = await fetch(request);
         
         // Cache successful responses
-        if (networkResponse.status === 200) {
+        if (networkResponse && networkResponse.status === 200) {
             const cache = await caches.open(DYNAMIC_CACHE);
-            cache.put(request, networkResponse.clone());
+            await cache.put(request, networkResponse.clone());
         }
         
         return networkResponse;
@@ -143,9 +143,9 @@ async function networkFirst(request) {
         const networkResponse = await fetch(request);
         
         // Cache successful responses
-        if (networkResponse.status === 200) {
+        if (networkResponse && networkResponse.status === 200) {
             const cache = await caches.open(DYNAMIC_CACHE);
-            cache.put(request, networkResponse.clone());
+            await cache.put(request, networkResponse.clone());
         }
         
         return networkResponse;
@@ -170,23 +170,29 @@ async function networkFirst(request) {
 
 // Stale-while-revalidate strategy
 async function staleWhileRevalidate(request) {
-    const cache = await caches.open(DYNAMIC_CACHE);
-    const cacheResponse = await caches.match(request);
-    
-    // Fetch from network in background
-    const networkResponsePromise = fetch(request)
-        .then(networkResponse => {
-            if (networkResponse.status === 200) {
-                cache.put(request, networkResponse.clone());
-            }
-            return networkResponse;
-        })
-        .catch(error => {
-            console.error('Background fetch failed:', error);
-        });
-    
-    // Return cached version immediately, or wait for network
-    return cacheResponse || networkResponsePromise;
+    try {
+        const cache = await caches.open(DYNAMIC_CACHE);
+        const cacheResponse = await caches.match(request);
+        
+        // Fetch from network in background
+        const networkResponsePromise = fetch(request)
+            .then(networkResponse => {
+                if (networkResponse && networkResponse.status === 200) {
+                    cache.put(request, networkResponse.clone());
+                }
+                return networkResponse;
+            })
+            .catch(error => {
+                console.error('Background fetch failed:', error);
+                return null;
+            });
+        
+        // Return cached version immediately, or wait for network
+        return cacheResponse || networkResponsePromise;
+    } catch (error) {
+        console.error('Stale-while-revalidate strategy failed:', error);
+        return fetch(request).catch(() => new Response('Offline', { status: 503 }));
+    }
 }
 
 // Background sync for analytics or other non-critical requests
