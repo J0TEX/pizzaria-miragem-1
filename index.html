@@ -4,100 +4,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizzaria Miragem - Vila do Conde</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2e7d32',
-                        secondary: '#f9a825',
-                        accent: '#e8f5e9',
-                    },
-                    fontFamily: {
-                        heading: ['Playfair Display', 'serif'],
-                        body: ['Poppins', 'sans-serif'],
-                    },
-                    borderRadius: {
-                        'squircle': '12px',
-                    }
-                }
-            }
-        }
-    </script>
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" as="style">
+    
+    <!-- Critical CSS (inlined) -->
     <style>
+        /* Critical styles for above-the-fold content */
         :root {
+            --primary: #2e7d32;
+            --secondary: #f9a825;
+            --accent: #e8f5e9;
             --squircle-radius: 12px;
         }
         
-        .rounded-squircle {
-            border-radius: var(--squircle-radius);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        .palm-bg {
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--accent);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header styles */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-icon {
+            color: var(--primary);
+            font-size: 1.875rem;
+        }
+        
+        .logo h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+        }
+        
+        /* Navigation */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: #374151;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        /* Hero section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23e8f5e9' fill-opacity='0.2' d='M0,192L48,197.3C96,203,192,213,288,197.3C384,181,480,139,576,128C672,117,768,139,864,165.3C960,192,1056,224,1152,218.7C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
             background-size: cover;
-            background-position: center;
         }
         
-        .menu-item {
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.05);
+        .hero-content {
+            max-width: 48rem;
+            margin: 0 auto;
         }
         
-        .menu-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .pizza-card {
-            perspective: 1000px;
-        }
-        
-        .pizza-inner {
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        
-        .pizza-card:hover .pizza-inner {
-            transform: rotateY(180deg);
-        }
-        
-        .pizza-front, .pizza-back {
-            backface-visibility: hidden;
-        }
-        
-        .pizza-back {
-            transform: rotateY(180deg);
-        }
-        
-        .hours-table td {
-            padding: 0.5rem 1rem;
-        }
-        
-        .hours-table tr:nth-child(even) {
-            background-color: #f0fdf4;
-        }
-        
-        .map-container {
-            position: relative;
-            overflow: hidden;
-            padding-top: 56.25%;
-        }
-        
-        .map-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-        
-        .floating {
+        .hero-icon {
+            color: var(--primary);
+            font-size: 3rem;
+            margin-bottom: 1rem;
             animation: floating 3s ease-in-out infinite;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero p {
+            font-size: 1.125rem;
+            color: #374151;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        
+        @media (min-width: 640px) {
+            .hero-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-align: center;
+            min-width: 140px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1b5e20;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f57f17;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Mobile menu */
+        .mobile-toggle {
+            display: none;
+            color: #374151;
+            font-size: 1.25rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            display: none;
+            padding: 1rem 0;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .mobile-menu ul {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            list-style: none;
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
         }
         
         @keyframes floating {
@@ -105,445 +208,195 @@
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
         }
+        
+        /* Utility classes */
+        .hidden { display: none; }
+        .text-center { text-align: center; }
+        .font-bold { font-weight: 700; }
+        .text-primary { color: var(--primary); }
+        .bg-white { background-color: white; }
     </style>
+    
+    <!-- Load non-critical CSS asynchronously -->
+    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
 </head>
-<body class="bg-accent font-body">
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200/50">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center py-3">
-                <div class="flex items-center gap-4">
-                    <div class="text-primary text-3xl">
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
                         <i class="fas fa-palm-tree"></i>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold font-heading text-primary">Pizzaria Miragem</h1>
+                        <h1>Pizzaria Miragem</h1>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-4">
-                    <nav class="hidden md:block">
-                        <ul class="flex space-x-6">
-                            <li><a href="#home" class="text-gray-700 font-medium hover:text-primary transition">Início</a></li>
-                            <li><a href="#about" class="text-gray-700 font-medium hover:text-primary transition">Sobre</a></li>
-                            <li><a href="#menu" class="text-gray-700 font-medium hover:text-primary transition">Menu</a></li>
-                            <li><a href="#contact" class="text-gray-700 font-medium hover:text-primary transition">Contactos</a></li>
+                <div>
+                    <nav>
+                        <ul>
+                            <li><a href="#home">Início</a></li>
+                            <li><a href="#about">Sobre</a></li>
+                            <li><a href="#menu">Menu</a></li>
+                            <li><a href="#contact">Contactos</a></li>
                         </ul>
                     </nav>
                     
-                    <div class="md:hidden">
-                        <button id="menu-toggle" class="text-gray-700 text-xl">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </div>
+                    <button class="mobile-toggle" id="menu-toggle" aria-label="Toggle mobile menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </div>
             
-            <div id="mobile-menu" class="hidden py-4 border-t">
-                <ul class="flex flex-col space-y-4">
-                    <li><a href="#home" class="block text-primary font-medium">Início</a></li>
-                    <li><a href="#about" class="block text-gray-700 font-medium">Sobre</a></li>
-                    <li><a href="#menu" class="block text-gray-700 font-medium">Menu</a></li>
-                    <li><a href="#contact" class="block text-gray-700 font-medium">Contactos</a></li>
+            <div class="mobile-menu hidden" id="mobile-menu">
+                <ul>
+                    <li><a href="#home" class="text-primary font-bold">Início</a></li>
+                    <li><a href="#about">Sobre</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#contact">Contactos</a></li>
                 </ul>
             </div>
         </div>
     </header>
 
-    <section id="home" class="palm-bg py-16">
-        <div class="container mx-auto px-4 text-center">
-            <div class="max-w-3xl mx-auto">
-                <div class="text-primary text-5xl mb-4 floating">
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-icon">
                     <i class="fas fa-pizza-slice"></i>
                 </div>
-                <h1 class="text-4xl md:text-5xl font-bold font-heading text-primary mb-6">Pizzaria Miragem</h1>
-                <p class="text-lg text-gray-700 mb-8">Sabores tropicais que transportam para o paraíso</p>
-                <div class="flex flex-col sm:flex-row justify-center gap-3">
-                    <a href="#menu" class="bg-primary hover:bg-green-800 text-white font-medium py-2.5 px-6 rounded-full transition duration-300 hover:shadow-lg">
-                        Ver Menu
-                    </a>
-                    <a href="#contact" class="bg-secondary hover:bg-yellow-700 text-white font-medium py-2.5 px-6 rounded-full transition duration-300 hover:shadow-lg">
-                        Encomendar
-                    </a>
+                <h1>Pizzaria Miragem</h1>
+                <p>Sabores tropicais que transportam para o paraíso</p>
+                <div class="hero-buttons">
+                    <a href="#menu" class="btn btn-primary">Ver Menu</a>
+                    <a href="#contact" class="btn btn-secondary">Encomendar</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="about" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold font-heading text-primary mb-2">Sobre Nós</h2>
-                <div class="w-20 h-1 bg-secondary mx-auto"></div>
-            </div>
-            
-            <div class="flex flex-col md:flex-row gap-10 items-center">
-                <div class="md:w-1/2">
-                    <img src="images/about.jpg" alt="Pizzaria Miragem interior" class="rounded-xl w-full h-96 object-cover">
-                </div>
-                
-                <div class="md:w-1/2">
-                    <h3 class="text-2xl font-bold font-heading text-primary mb-4">A Nossa História</h3>
-                    <p class="text-gray-700 mb-6">
-                        Desde 2021, a Pizzaria Miragem tem sido um marco em Vila do Conde, servindo pizzas artesanais com ingredientes frescos e de qualidade. Inspirados pela beleza tropical, criamos sabores únicos que transportam os nossos clientes para um paraíso gastronómico.
-                    </p>
-                    
-                    <h3 class="text-xl font-bold text-primary mb-3">Horário de Funcionamento</h3>
-                    <table class="hours-table w-full mb-6">
-                        <tr>
-                            <td class="font-medium">Segunda-feira</td>
-                            <td>11:00 - 23:00</td>
-                        </tr>
-                        <tr>
-                            <td class="font-medium">Terça-feira</td>
-                            <td class="text-red-500">Encerrado</td>
-                        </tr>
-                        <tr>
-                            <td class="font-medium">Quarta-feira</td>
-                            <td>11:00 - 23:00</td>
-                        </tr>
-                        <tr>
-                            <td class="font-medium">Quinta-feira</td>
-                            <td>11:00 - 23:00</td>
-                        </tr>
-                        <tr>
-                            <td class="font-medium">Sexta-feira</td>
-                            <td>11:00 - 23:00</td>
-                        </tr>
-                        <tr>
-                            <td class="font-medium">Sábado</td>
-                            <td>11:00 - 23:00</td>
-                        </tr>
-                        <tr>
-                            <td class="font-medium">Domingo</td>
-                            <td>11:00 - 23:00</td>
-                        </tr>
-                    </table>
-                    
-                    <p class="text-gray-700">
-                        Entregamos em casa das <span class="font-bold">12:00 até à meia-noite</span>, todos os dias exceto terça-feira.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Lazy-loaded content will be here -->
+    <div id="lazy-content">
+        <!-- Content will be loaded by JavaScript -->
+    </div>
 
-    <section id="menu" class="py-16 bg-accent">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold font-heading text-primary mb-2">O Nosso Menu</h2>
-                <div class="w-20 h-1 bg-secondary mx-auto mb-6"></div>
-                <p class="text-gray-700 max-w-2xl mx-auto">
-                    Descubra a nossa seleção de entradas, pizzas artesanais e massas deliciosas. Todas as pizzas estão disponíveis em tamanho normal e grande.
-                </p>
-            </div>
-            
-            <div class="mb-16">
-                <h3 class="text-2xl font-bold font-heading text-primary mb-6 text-center">Entradas</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-squircle shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start">
-                                <h4 class="text-xl font-bold text-gray-800">Sopa</h4>
-                                <span class="text-lg font-bold text-primary">2,20€</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start">
-                                <h4 class="text-xl font-bold text-gray-800">Salada Mista</h4>
-                                <span class="text-lg font-bold text-primary">3,00€</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start">
-                                <h4 class="text-xl font-bold text-gray-800">Pão de Alho</h4>
-                                <span class="text-lg font-bold text-primary">0,60€</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start">
-                                <h4 class="text-xl font-bold text-gray-800">Pão</h4>
-                                <span class="text-lg font-bold text-primary">0,40€</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start">
-                                <h4 class="text-xl font-bold text-gray-800">Manteiga</h4>
-                                <span class="text-lg font-bold text-primary">0,50€</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mb-16">
-                <h3 class="text-2xl font-bold font-heading text-primary mb-6 text-center">Pizzas</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="pizza-card">
-                        <div class="pizza-inner">
-                            <div class="pizza-front bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                                <div class="p-6">
-                                    <div class="flex justify-between items-start mb-3">
-                                        <h4 class="text-xl font-bold text-gray-800">Miragem</h4>
-                                        <div class="text-right">
-                                            <div class="text-lg font-bold text-primary">11,40€ / 18,80€</div>
-                                        </div>
-                                    </div>
-                                    <p class="text-gray-600 mb-4">Tomate, queijo, fiambre, cogumelos, pimentos, camarão e ovo</p>
-                                    <div class="text-center">
-                                        <span class="text-xs bg-primary text-white px-2 py-1 rounded">Especialidade da casa</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pizza-back bg-primary rounded-lg shadow-md overflow-hidden absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                                <div class="text-white text-center p-4">
-                                    <h4 class="text-xl font-bold mb-2">Miragem</h4>
-                                    <p class="mb-4">A nossa pizza mais emblemática</p>
-                                    <div class="text-3xl">11,40€ / 18,80€</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-3">
-                                <h4 class="text-xl font-bold text-gray-800">À Nossa Moda</h4>
-                                <div class="text-right">
-                                    <div class="text-lg font-bold text-primary">10,80€ / 18,10€</div>
-                                </div>
-                            </div>
-                            <p class="text-gray-600">Tomate, queijo, fiambre, camarão e ovo</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-3">
-                                <h4 class="text-xl font-bold text-gray-800">Suprema</h4>
-                                <div class="text-right">
-                                    <div class="text-lg font-bold text-primary">11,40€ / 18,80€</div>
-                                </div>
-                            </div>
-                            <p class="text-gray-600">Tomate, queijo, fiambre, cogumelos, pimentos, chourição e camarão</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-3">
-                                <h4 class="text-xl font-bold text-gray-800">Especial</h4>
-                                <div class="text-right">
-                                    <div class="text-lg font-bold text-primary">10,80€ / 18,10€</div>
-                                </div>
-                            </div>
-                            <p class="text-gray-600">Tomate, queijo, fiambre, cogumelos, pimentos e chourição</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-3">
-                                <h4 class="text-xl font-bold text-gray-800">Napolitana</h4>
-                                <div class="text-right">
-                                    <div class="text-lg font-bold text-primary">10,80€ / 18,10€</div>
-                                </div>
-                            </div>
-                            <p class="text-gray-600">Tomate, queijo, atum, cogumelos e camarão</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-3">
-                                <h4 class="text-xl font-bold text-gray-800">Frango</h4>
-                                <div class="text-right">
-                                    <div class="text-lg font-bold text-primary">10,80€ / 18,10€</div>
-                                </div>
-                            </div>
-                            <p class="text-gray-600">Tomate, queijo, frango e cogumelos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div>
-                <h3 class="text-2xl font-bold font-heading text-primary mb-6 text-center">Massas</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start">
-                                <h4 class="text-xl font-bold text-gray-800">Lasanha</h4>
-                                <span class="text-lg font-bold text-primary">9,80€</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start">
-                                <h4 class="text-xl font-bold text-gray-800">Lasanha com cogumelos e ovo</h4>
-                                <span class="text-lg font-bold text-primary">10,50€</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden menu-item">
-                        <div class="p-6">
-                            <div class="flex justify-between items-start">
-                                <h4 class="text-xl font-bold text-gray-800">Esparguete à Bolonhesa</h4>
-                                <span class="text-lg font-bold text-primary">8,90€</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold font-heading text-primary mb-2">Contactos</h2>
-                <div class="w-20 h-1 bg-secondary mx-auto"></div>
-            </div>
-            
-            <div class="flex flex-col lg:flex-row gap-10">
-                <div class="lg:w-1/2">
-                    <div class="bg-gray-100 p-8 rounded-lg shadow-md">
-                        <h3 class="text-2xl font-bold text-primary mb-6">Informações de Contacto</h3>
-                        
-                        <div class="mb-6">
-                            <h4 class="text-lg font-bold text-gray-800 mb-2 flex items-center">
-                                <i class="fas fa-map-marker-alt text-primary mr-3"></i> Morada
-                            </h4>
-                            <p class="text-gray-700">
-                                Avenida doutor Carlos Pinto Ferreira n°10<br>
-                                Vila do Conde<br>
-                                4480-665
-                            </p>
-                        </div>
-                        
-                        <div class="mb-6">
-                            <h4 class="text-lg font-bold text-gray-800 mb-2 flex items-center">
-                                <i class="fas fa-phone-alt text-primary mr-3"></i> Telefone
-                            </h4>
-                            <p class="text-gray-700">
-                                252 612 920<br>
-                                936 063 999
-                            </p>
-                        </div>
-                        
-                        <div class="mb-6">
-                            <h4 class="text-lg font-bold text-gray-800 mb-2 flex items-center">
-                                <i class="fas fa-clock text-primary mr-3"></i> Horário
-                            </h4>
-                            <p class="text-gray-700">
-                                Segunda a Domingo: 11:00 - 23:00<br>
-                                <span class="text-red-500">Encerrados à Terça-feira</span>
-                            </p>
-                        </div>
-                        
-                        <div>
-                            <h4 class="text-lg font-bold text-gray-800 mb-2 flex items-center">
-                                <i class="fas fa-truck text-primary mr-3"></i> Entrega ao Domicílio
-                            </h4>
-                            <p class="text-gray-700">
-                                Entregamos em casa das 12:00 até à meia-noite, todos os dias exceto terça-feira.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="lg:w-1/2">
-                    <div class="bg-gray-100 p-8 rounded-lg shadow-md">
-                        <h3 class="text-2xl font-bold text-primary mb-6">Localização</h3>
-                        <div class="map-container">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3003.4567890123456!2d-8.7431234!3d41.3549876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDIxJzE3LjkiTiA4wrA0NCczNS4yIlc!5e0!3m2!1sen!2spt!4v1234567890123!5m2!1sen!2spt" 
-                                allowfullscreen="" loading="lazy" 
-                                referrerpolicy="no-referrer-when-downgrade" class="w-full h-full rounded-xl"></iframe>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-8 bg-gray-100 p-8 rounded-lg shadow-md">
-                        <h3 class="text-2xl font-bold text-primary mb-6">Encomendar</h3>
-                        <p class="text-gray-700 mb-4">
-                            Ligue diretamente para fazer a sua encomenda:
-                        </p>
-                        <div class="flex flex-wrap gap-4">
-                            <a href="tel:252612920" class="bg-primary hover:bg-green-800 text-white font-bold py-3 px-6 rounded-full transition flex items-center">
-                                <i class="fas fa-phone mr-2"></i> 252 612 920
-                            </a>
-                            <a href="tel:936063999" class="bg-secondary hover:bg-yellow-700 text-white font-bold py-3 px-6 rounded-full transition flex items-center">
-                                <i class="fas fa-mobile-alt mr-2"></i> 936 063 999
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-primary text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-6 md:mb-0">
-                    <div class="flex items-center">
-                        <div class="text-4xl mr-3">
-                            <i class="fas fa-palm-tree"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-2xl font-bold font-heading">Pizzaria Miragem</h2>
-                            <p class="text-accent">Sabor tropical em Vila do Conde</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center md:text-right">
-                    <p class="mb-2">Avenida doutor Carlos Pinto Ferreira n°10, Vila do Conde</p>
-                    <p class="mb-2">4480-665</p>
-                    <p class="mb-2">252 612 920 | 936 063 999</p>
-                    <p class="text-accent">© 2023 Pizzaria Miragem. Todos os direitos reservados.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    <!-- Load fonts asynchronously -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" media="print" onload="this.media='all'">
+    
+    <!-- Load Font Awesome with defer -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <!-- Inline critical JavaScript -->
     <script>
-        // Mobile menu toggle
-        document.getElementById('menu-toggle').addEventListener('click', function() {
+        // Critical JavaScript for immediate functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const menuToggle = document.getElementById('menu-toggle');
             const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
+            
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = target.offsetTop - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        if (mobileMenu) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+            
+            // Load non-critical content
+            loadNonCriticalContent();
         });
         
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
+        // Function to load non-critical content
+        function loadNonCriticalContent() {
+            fetch('content.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('lazy-content').innerHTML = html;
                     
-                    // Close mobile menu if open
-                    document.getElementById('mobile-menu').classList.add('hidden');
-                }
-            });
-        });
+                    // Initialize lazy loading for images
+                    if ('IntersectionObserver' in window) {
+                        const lazyImages = document.querySelectorAll('img[data-src]');
+                        const imageObserver = new IntersectionObserver((entries, observer) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    const img = entry.target;
+                                    img.src = img.dataset.src;
+                                    img.classList.remove('lazy');
+                                    imageObserver.unobserve(img);
+                                }
+                            });
+                        });
+                        
+                        lazyImages.forEach(img => imageObserver.observe(img));
+                    }
+                    
+                    // Initialize lazy loading for iframe (Google Maps)
+                    const lazyIframes = document.querySelectorAll('iframe[data-src]');
+                    if (lazyIframes.length > 0 && 'IntersectionObserver' in window) {
+                        const iframeObserver = new IntersectionObserver((entries, observer) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    const iframe = entry.target;
+                                    iframe.src = iframe.dataset.src;
+                                    iframeObserver.unobserve(iframe);
+                                }
+                            });
+                        });
+                        
+                        lazyIframes.forEach(iframe => iframeObserver.observe(iframe));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading content:', error);
+                    // Fallback: show basic content
+                    document.getElementById('lazy-content').innerHTML = `
+                        <section class="bg-white text-center" style="padding: 4rem 1rem;">
+                            <div class="container">
+                                <h2 class="text-primary font-bold" style="font-size: 1.5rem; margin-bottom: 1rem;">Conteúdo em carregamento...</h2>
+                                <p>Por favor, recarregue a página se o conteúdo não aparecer.</p>
+                            </div>
+                        </section>
+                    `;
+                });
+        }
     </script>
-<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://deepsite.hf.co/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://deepsite.hf.co" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://deepsite.hf.co?remix=Jotahh/miragem-8-1" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js')
+                    .then(function(registration) {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(function(registrationError) {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
 </html>
